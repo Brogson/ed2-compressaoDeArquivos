@@ -5,15 +5,19 @@ typedef struct {
     void **dados; //Fila de prioridade
     int tamanho;
     int capacidade;
-    int (*ehMenor)(void*, void*);
 } Heap;
 
-void troca(void **x, void **y) {
-    void *temp = *x;
-    *x = *y;
-    *y = temp;
-}
+void troca(void **x, void **y);
 
+bool ehMenorInt(int* a, int* b);
+
+void heapifyUp(Heap* h, int i);
+
+void heapifyDown(Heap* h, int i);
+
+void insereHeap(Heap* h, void* dado);
+
+void* extraiMin(Heap* h);
 
     
 
