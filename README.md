@@ -1,0 +1,1 @@
+Nesse trabalho buscamos desenvolver o trabalho proposto em sala de aula sobre Compressão de Arquivos utilizando conceitos como Fila de Prioridade, Árvores Digitais, Código de Huffman e criação de um make.
