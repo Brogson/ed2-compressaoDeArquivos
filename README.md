@@ -19,13 +19,6 @@ Implementação de um compactador e descompactador de arquivos de texto utilizan
 
 ---
 
-# Estrutura do Projeto
-
-```
-  Utilizamos 3 arquivos principais: heap.c , huffman.c e main.c. Além de disponibilizarmos alguns arquivos de exemplo de entrada e resultados esperados.
-```
----
-
 # Compilação e Execução
 
 # Pré-requisitos
