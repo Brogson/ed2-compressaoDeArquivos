@@ -4,6 +4,16 @@
 #include "heap.h"
 #include "huffman.h"
 
+/* Fonte:  http://www.ime.usp.br/~pf/algoritmos/aulas/aloca.html */
+void *mallocSafe(size_t nbytes) {
+    void *ptr = malloc(nbytes);
+    if (ptr == NULL) {
+        printf("Erro na alocação de memória\n");
+        exit(1);
+    }
+    return ptr;
+}
+
 void troca(void **x, void **y) {
     void *temp = *x;
     *x = *y;
@@ -15,7 +25,7 @@ bool ehMenorInt(int* a, int* b) {
 }
 
 void criaHeap(Heap* h, int capacidade) {
-    h->dados = (void**) malloc(capacidade * sizeof(void*));
+    h->dados = (void**) mallocSafe(capacidade * sizeof(void*));
     h->tamanho = 0;
     h->capacidade = capacidade + 1;
 }
@@ -77,37 +87,4 @@ void* extraiMin(Heap* h) {
 void liberaHeap(Heap* h) {
     if (h->dados != NULL) free(h->dados);
     free(h);
-}
-
-
-int main() {
-    Heap h;
-    criaHeap(&h, 10);
-    // --- Teste de inserção ---
-    printf("=== INSERCAO ===\n");
-
-    int valores[] = {5, 2, 8, 1, 9, 3};
-    int n = sizeof(valores) / sizeof(valores[0]);
-
-    for (int i = 0; i < n; i++) {
-        printf("Inserindo %d...\n", valores[i]);
-        insereHeap(&h, &valores[i]);
-    }
-
-    // --- Teste de extração ---
-    printf("\n=== EXTRAI MINIMO ===\n");
-
-    while (h.tamanho > 0) {
-        int *min = (int*) extraiMin(&h);
-        printf("Extraido: %d | ", *min);
-    }
-
-    // --- Teste de heap vazio ---
-    printf("\n=== HEAP VAZIO ===\n");
-    int *min = (int*) extraiMin(&h);
-    if (min == NULL)
-        printf("extraiMin retornou NULL corretamente\n");
-
-    liberaHeap(&h);
-    return 0;
 }
