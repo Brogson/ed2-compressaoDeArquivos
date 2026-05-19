@@ -20,7 +20,7 @@ NoHuffman* criaNoHuffman(int posicao, int frequencia) {
 
     if (novoNo == NULL) return NULL;
     
-    novoNo->chave = (char) posicao;
+    novoNo->chave = (unsigned char) posicao;
     novoNo->frequencia = frequencia;
 
     return novoNo;

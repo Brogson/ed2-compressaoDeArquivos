@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "heap.h"
-#include "huffman.h"
+
 
 /* Fonte:  http://www.ime.usp.br/~pf/algoritmos/aulas/aloca.html */
 void *mallocSafe(size_t nbytes) {
@@ -20,14 +20,16 @@ void troca(void **x, void **y) {
     *y = temp;
 }
 
-bool ehMenorInt(int* a, int* b) {
+bool ehMenorInt(void* a, void* b) {
+    int int_a = *(int*)a;
+    int int_b = *(int*)b;
     return *a < *b;
 }
 
 void criaHeap(Heap* h, int capacidade) {
-    h->dados = (void**) mallocSafe(capacidade * sizeof(void*));
     h->tamanho = 0;
-    h->capacidade = capacidade + 1;
+    h->capacidade = capacidade + 1; //Heap inicia da posição 1
+    h->dados = (void**) mallocSafe(capacidade * sizeof(void*));
 }
 
 void heapifyUp(Heap* h, int i) {
@@ -52,7 +54,7 @@ void heapifyDown(Heap* h, int i) {
     }
 
     if (menor != i) {
-        troca(h->dados[menor], h->dados[i]);
+        troca(&h->dados[menor], &h->dados[i]);
         heapifyDown(h, menor);
     }
 }
@@ -75,7 +77,7 @@ void insereHeap(Heap* h, void* dado) {
 
 void* extraiMin(Heap* h) {
     if (h != NULL && h->tamanho > 0) {
-        void* raiz = h->dados[0];
+        void* raiz = h->dados[1];
         h->dados[1] = h->dados[h->tamanho];
         h->tamanho--;
         heapifyDown(h, 1);

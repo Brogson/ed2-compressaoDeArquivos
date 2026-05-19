@@ -20,7 +20,7 @@ void insereHeap(Heap* h, void* dado);
 
 void* extraiMin(Heap* h);
 
-void *mallocSafe(size_t nbytes);
+void* mallocSafe(size_t nbytes);
 
     
 

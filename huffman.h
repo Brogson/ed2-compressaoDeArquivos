@@ -1,6 +1,9 @@
 typedef struct NoHuffman {
-    char chave;
+    unsigned char chave;
     int frequencia;
+    
+    NoHuffman* esq;
+    NoHuffman* dir;
 } NoHuffman;
 
 void contaFrequencia(FILE* arquivo);
