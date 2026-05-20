@@ -8,12 +8,12 @@
 int vetorFrequencia[256] = {0};
 
 bool ehMenorNo(void* a, void* b) { //Callback para o heap genérico
-    NoHuffman noA = *(NoHuffman*)a;
-    NoHuffman noB = *(NoHuffman*)b;
+    NoHuffman* noA = (NoHuffman*)a;
+    NoHuffman* noB = (NoHuffman*)b;
     return noA.frequencia < noB.frequencia;
 }
 
-void contaFrequencia(FILE* arquivoLeitura) {
+void contaFrequencia(FILE* arquivoLeitura, int vetorFrequencia[256]) {
     int caractere;
     
     // Adiciona-se 1 à posição referente ao caractere no vetor de Frequências:
@@ -25,11 +25,11 @@ void contaFrequencia(FILE* arquivoLeitura) {
 NoHuffman* criaNoHuffman(int chave, int frequencia) {
     NoHuffman* novoNo = mallocSafe(sizeof(NoHuffman));
 
-    if (novoNo == NULL) return NULL;
-    
     novoNo->chave = (unsigned char)chave;
     novoNo->frequencia = frequencia;
-
+    novoNo->esq = NULL;
+    novoNo->dir = NULL;
+    
     return novoNo;
 }
 
@@ -61,12 +61,12 @@ void criaCodigo(NoHuffman* raiz, int profundidade, char* codigo, unsigned char t
 
     // Encontrou o nó folha
     if (raiz->dir == NULL && raiz->esq == NULL) {
-        tabela[raiz->chave][profundidade] = '\0';
 
         // Preenche todo o vetor correspondente à posição do caractere com seu devido código
         for (int i = 0; i <= profundidade; i++) {
             tabela[raiz->chave][i] = codigo[i];
         }
+        tabela[raiz->chave][profundidade] = '\0';
     }
 
     if (raiz->esq != NULL) {
@@ -86,5 +86,4 @@ void liberaArvore(NoHuffman* raiz) {
     liberaArvore(raiz->dir);
 
     free(raiz);
-    raiz = NULL;
 }
