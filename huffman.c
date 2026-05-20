@@ -12,7 +12,7 @@ bool ehMenorNo(void* a, void* b) {
     return noA->frequencia < noB->frequencia;
 }
 
-void contaFrequencia(FILE* arquivoLeitura, int vetorFrequencia[256]) {
+void contaFrequencia(FILE** arquivoLeitura, int vetorFrequencia[256]) {
     int caractere;
     
     // Adiciona-se 1 à posição referente ao caractere no vetor de Frequências:
@@ -110,7 +110,7 @@ void imprimeArvore(NoHuffman* raiz, int profundidade) {
     imprimeArvore(raiz->esq, profundidade + 1);
 }
 
-void imprimeTabela() {
+void comprimeArquivo(FILE** arquivoLeitura, int vetorFrequencia[256]){
 
 }
 
