@@ -9,7 +9,7 @@
 bool ehMenorNo(void* a, void* b) {
     NoHuffman* noA = (NoHuffman*)a;
     NoHuffman* noB = (NoHuffman*)b;
-    return noA.frequencia < noB.frequencia;
+    return noA->frequencia < noB->frequencia;
 }
 
 void contaFrequencia(FILE* arquivoLeitura, int vetorFrequencia[256]) {
@@ -77,6 +77,24 @@ void criaCodigo(NoHuffman* raiz, int profundidade, char* codigo, unsigned char t
         criaCodigo(raiz->dir, profundidade + 1, codigo, tabela);
     }
 }
+
+void imprimeArvore(NoHuffman* raiz, int profundidade, unsigned char tabela[256][256]) {
+    if (raiz == NULL) return;
+
+    
+    imprimeArvore(raiz->esq);
+    for (int i = raiz->chave; 
+    printf("Chave: %d\t Frequencia: %d\t Codigo: ")
+}
+
+A 1 2 3 4   A   1x1
+            1   2x1
+            2   3x1
+            3   
+            4
+
+
+
 
 void liberaArvore(NoHuffman* raiz) {
     if (raiz == NULL) return;
