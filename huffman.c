@@ -4,10 +4,9 @@
 #include "heap.h"
 #include "huffman.h"
 
-// Vetor para registro das frequencias de cada caractere em relacao à tabela ASCII estendida
-int vetorFrequencia[256] = {0};
 
-bool ehMenorNo(void* a, void* b) { //Callback para o heap genérico
+//Callback para o heap genérico
+bool ehMenorNo(void* a, void* b) {
     NoHuffman* noA = (NoHuffman*)a;
     NoHuffman* noB = (NoHuffman*)b;
     return noA.frequencia < noB.frequencia;
