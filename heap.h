@@ -1,24 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-typedef struct {
+typedef struct heap {
     void **dados; //Fila de prioridade
     int tamanho;
     int capacidade;
 } Heap;
 
+void criaHeap(Heap* h, int capacidade);
+
+void heapifyUp(Heap* h, int i, bool (*ehMenor)(void*, void*));
+
+void heapifyDown(Heap* h, int i, bool (*ehMenor)(void*, void*));
+
+void insereHeap(Heap* h, void* dado, bool (*ehMenor)(void*, void*));
+
+void* extraiMin(Heap* h, bool (*ehMenor)(void*, void*));
+
 void troca(void **x, void **y);
-
-bool ehMenorInt(int* a, int* b);
-
-void heapifyUp(Heap* h, int i);
-
-void heapifyDown(Heap* h, int i);
-
-void insereHeap(Heap* h, void* dado);
-
-void* extraiMin(Heap* h);
 
 void* mallocSafe(size_t nbytes);
 
