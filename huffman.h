@@ -8,7 +8,7 @@ typedef struct no {
 
 bool ehMenorNo(void* a, void*b);
 
-void contaFrequencia(FILE* arquivo);
+void contaFrequencia(FILE* arquivo, int vetorFrequencia[256]);
 
 NoHuffman* criaNoHuffman(int posicao, int frequencia);
 

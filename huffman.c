@@ -21,6 +21,19 @@ void contaFrequencia(FILE* arquivoLeitura, int vetorFrequencia[256]) {
     }
 }
 
+void imprimeFrequencia(int vetorFrequencia[256]) {
+    printf("IMPRIMINDO FREQUENCIAS:\n");
+    for (int i = 0; i < 256; i++) {
+        if (vetorFrequencia[i] > 0) {
+            if (i == '\n')
+                printf("\tASCII: %d, caractere: \\n, Frequencia: %d\n", i, vetorFrequencia[i]);
+            else
+                printf("\tASCII: %d, caractere: %c, Frequencia: %d\n", i, i, vetorFrequencia[i]);
+        }
+        
+    }
+}
+
 NoHuffman* criaNoHuffman(int chave, int frequencia) {
     NoHuffman* novoNo = mallocSafe(sizeof(NoHuffman));
 
@@ -78,23 +91,28 @@ void criaCodigo(NoHuffman* raiz, int profundidade, char* codigo, unsigned char t
     }
 }
 
-void imprimeArvore(NoHuffman* raiz, int profundidade, unsigned char tabela[256][256]) {
+void imprimeArvore(NoHuffman* raiz, int profundidade) {
     if (raiz == NULL) return;
 
-    
-    imprimeArvore(raiz->esq);
-    for (int i = raiz->chave; 
-    printf("Chave: %d\t Frequencia: %d\t Codigo: ")
+    imprimeArvore(raiz->dir, profundidade + 1);
+
+    for (int i = 0; i < profundidade; i++) {
+        printf("    ");
+    }
+
+    if (raiz->esq == NULL && raiz->dir == NULL) {
+        printf("[%c : %d]\n", raiz->chave, raiz->frequencia);
+    }
+    else {
+        printf("[%d]\n", raiz->frequencia);
+    }
+
+    imprimeArvore(raiz->esq, profundidade + 1);
 }
 
-A 1 2 3 4   A   1x1
-            1   2x1
-            2   3x1
-            3   
-            4
+void imprimeTabela() {
 
-
-
+}
 
 void liberaArvore(NoHuffman* raiz) {
     if (raiz == NULL) return;
