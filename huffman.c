@@ -18,7 +18,7 @@ void contaFrequencia(FILE** arquivoLeitura, int vetorFrequencia[256]) {
     
     // Adiciona-se 1 à posição referente ao caractere no vetor de Frequências:
     while ((caractere = fgetc(arquivoLeitura)) != EOF) {
-        vetorFrequencia[caractere]++;
+        vetorFrequencia[caractere]++; //teste
     }
 }
 
