@@ -1,0 +1,158 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include "heap.h"
+#include "huffman.h"
+
+
+//Callback para o heap genérico
+bool ehMenorNo(void* a, void* b) {
+    NoHuffman* noA = (NoHuffman*)a;
+    NoHuffman* noB = (NoHuffman*)b;
+    return noA->frequencia < noB->frequencia;
+}
+
+void contaFrequencia(FILE** arquivoLeitura, int vetorFrequencia[256]) {
+    int caractere;
+    
+    // Adiciona-se 1 à posição referente ao caractere no vetor de Frequências:
+    while ((caractere = fgetc(arquivoLeitura)) != EOF) {
+        vetorFrequencia[caractere]++;
+    }
+}
+
+void imprimeFrequencia(int vetorFrequencia[256]) {
+    for (int i = 0; i < 256; i++) {
+        if (vetorFrequencia[i] > 0) {
+            if (i == '\n')
+                printf("\tASCII: %d, Caractere: \\n, Frequencia: %d\n", i, vetorFrequencia[i]);
+            else
+                printf("\tASCII: %d, Caractere: %c, Frequencia: %d\n", i, i, vetorFrequencia[i]);
+        }
+        
+    }
+}
+
+NoHuffman* criaNoHuffman(int chave, int frequencia) {
+    NoHuffman* novoNo = mallocSafe(sizeof(NoHuffman));
+
+    novoNo->chave = (unsigned char)chave;
+    novoNo->frequencia = frequencia;
+    novoNo->esq = NULL;
+    novoNo->dir = NULL;
+    
+    return novoNo;
+}
+
+NoHuffman* constroiArvore(int vetorFrequencia[256]) {
+    Heap h;
+    criaHeap(&h, 256);
+
+    for (int i = 0; i < 256; i++) {
+        if (vetorFrequencia[i] > 0) {
+            NoHuffman* novoNo = criaNoHuffman(i, vetorFrequencia[i]);
+            insereHeap(&h, novoNo, ehMenorNo);
+        }
+    }
+
+    while (h.tamanho > 1) {
+        NoHuffman* menor1 = (NoHuffman*) extraiMin(&h, ehMenorNo);
+        NoHuffman* menor2 = (NoHuffman*) extraiMin(&h, ehMenorNo);
+        NoHuffman* novoNo = criaNoHuffman('\0', menor1->frequencia + menor2->frequencia);
+        novoNo->esq = menor1;
+        novoNo->dir = menor2;
+        insereHeap(&h, novoNo, ehMenorNo);
+    }
+    return (NoHuffman*) h.dados[1];
+}
+
+void criaCodigoHuffman(NoHuffman* raiz, int profundidade, char* codigo, unsigned char* tabela[256][256]){
+    
+    if (raiz == NULL) return;
+
+    // Encontrou o no folha
+    if (raiz->dir == NULL && raiz->esq == NULL) {
+
+        // Preenche todo o vetor correspondente a posicao do caractere com seu devido codigo
+        for (int i = 0; i <= profundidade; i++) {
+            tabela[raiz->chave][i] = codigo[i];
+        }
+        tabela[raiz->chave][profundidade] = '\0';
+    }
+
+    if (raiz->esq != NULL) {
+        codigo[profundidade] = '0';
+        criaCodigo(raiz->esq, profundidade + 1, codigo, tabela);
+    }
+    if (raiz->dir!= NULL) {
+        codigo[profundidade] = '1';
+        criaCodigo(raiz->dir, profundidade + 1, codigo, tabela);
+    }
+}
+
+void imprimeArvore(NoHuffman* raiz, int profundidade) {
+    if (raiz == NULL) return;
+
+    imprimeArvore(raiz->dir, profundidade + 1);
+
+    for (int i = 0; i < profundidade; i++) {
+        printf("    ");
+    }
+
+    if (raiz->esq == NULL && raiz->dir == NULL) {
+        printf("[%c : %d]\n", raiz->chave, raiz->frequencia);
+    }
+    else {
+        printf("[%d]\n", raiz->frequencia);
+    }
+
+    imprimeArvore(raiz->esq, profundidade + 1);
+}
+
+void formataNome(char* nomeArquivo) {
+    int i = 0;
+    while (nomeArquivo[i] != '\n') {
+        continue;
+    }
+    nomeArquivo[i] = '\0';
+}
+
+FILE* criaArquivoSaida(char* nomeArquivoSaida) {
+    formataNome(nomeArquivoSaida);
+    nomeArquivoSaida = strcat(nomeArquivoSaida, ".bin");
+
+    // Cria o arquivo para escrita binaria e retorna aberto
+    FILE* arquivoSaida = fopen (nomeArquivoSaida, "wb");
+    return arquivoSaida;
+}
+
+void comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int* vetorFrequencia[256], NoHuffman* raiz) {
+    /* - Passo a Passo -
+        1 - Abre arquivo Leitura;
+        2 - Conta frequencia de cada caractere (cabecalho);
+        3 - Constroi Arvore de Huffman;
+        4 - Cria o codigo de cada caractere;
+        5 - Cria o arquivo Saida;
+        6 - ...
+    */
+
+    FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "r");
+    contaFrequencia(&arquivoLeitura, &vetorFrequencia);
+    NoHuffman* raiz = constroiArvore(&vetorFrequencia);
+
+    unsigned char tabelaCodigos[256][256] = NULL;
+    char codigo[256];
+
+    criaCodigoHuffman(raiz, 0, &codigo, &tabelaCodigos);
+    FILE* arquivoSaida = criaArquivoSaida(nomeArquivoSaida);
+}
+
+void liberaArvore(NoHuffman* raiz) {
+    if (raiz == NULL) return;
+    
+    liberaArvore(raiz->esq);
+    liberaArvore(raiz->dir);
+
+    free(raiz);
+}
