@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "heap.h"
-#include "huffman.h"
 
 /* Fonte:  http://www.ime.usp.br/~pf/algoritmos/aulas/aloca.html */
 void *mallocSafe(size_t nbytes) {
