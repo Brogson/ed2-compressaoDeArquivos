@@ -28,15 +28,17 @@ int main (void) {
                 char nomeArquivoEntrada[100];
                 char nomeArquivoSaida[100];
                 
-                printf("Digite o nome do arquivo de entrada: ");
+                if (raiz != NULL) liberaArvore(raiz);
+
+                printf("Digite o nome do arquivo de entrada (.txt): ");
                 fgets(nomeArquivoEntrada, 100, stdin);
                 printf("Digite o nome do arquivo de saida: ");
                 fgets(nomeArquivoSaida, 100, stdin);
 
                 //Inicia a compressao do arquivo
-                comprimeArquivo(nomeArquivoEntrada, nomeArquivoSaida, vetorFrequencia);
+                raiz = comprimeArquivo(nomeArquivoEntrada, nomeArquivoSaida, vetorFrequencia);
 
-                printf("Compressao concluida!\n");
+                printf("\nCompressao concluida!\n");
                 aux = 1;
                 break;
             
@@ -47,28 +49,29 @@ int main (void) {
                 }
                 
                 // Caso ja tenha passado pela opcao 1, imprime as frequencias de cada caracter na tela
-                printf(" =-= Imprimindo Frequencias =-= \n");
+                printf("\n =-= Imprimindo Frequencias =-= \n");
                 imprimeFrequencia(vetorFrequencia);
                 break;
             
             case 3:
                 if (!aux) {
-                    printf("Erro! Voce ainda nao compactou um arquivo\n");
+                    printf("\nErro! Voce ainda nao compactou um arquivo\n");
                     break;
                 }
-                printf(" =-= Imprimindo Arvore de Huffman =-= \n");
+                printf("\n =-= Imprimindo Arvore de Huffman =-= \n");
 
                 // Caso ja tenha passado pela opcao 1, imprime a arvore na tela
                 imprimeArvore(raiz, 0);
                 break;
                 
-            case 4: 
+            case 4:
+                if (raiz != NULL) liberaArvore(raiz); 
                 char nomeArquivoComprimido[100];
                 char nomeArquivoDescompactado[100];
                 
-                printf("Digite o nome do arquivo de entrada: ");
+                printf("Digite o nome do arquivo de entrada (.jlv): ");
                 fgets(nomeArquivoComprimido, 100, stdin);
-                printf("Digite o nome do arquivo de saida: ");
+                printf("Digite o nome do arquivo de saida (.txt): ");
                 fgets(nomeArquivoDescompactado, 100, stdin);
 
                 // Retira o \n dos 2 nomes e chama a descompressao
@@ -76,17 +79,16 @@ int main (void) {
                 formataNome(nomeArquivoDescompactado);
 
                 descomprimeArquivo(nomeArquivoComprimido, nomeArquivoDescompactado);
-                liberaArvore(raiz);
-                printf("Descompressao concluida!\n");
+                printf("\nDescompressao concluida!\n");
                 break;
 
             case 5:
-                printf("Encerrando o programa!\n");
+                printf("\nEncerrando o programa!\n");
                 liberaArvore(raiz);
                 exit(0);
             
             default:
-                printf("Opcao Invalida! Tente novamente\n");
+                printf("\nOpcao Invalida! Tente novamente\n");
                 break;
         }
     } while (opcao != 5);

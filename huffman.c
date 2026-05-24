@@ -20,7 +20,7 @@ void verificaArquivo(FILE* arquivo) {
     }
 }
 
-void contaFrequencia(FILE* arquivoLeitura, int** vetorFrequencia) {
+void contaFrequencia(FILE* arquivoLeitura, int* vetorFrequencia) {
     int caractere;
     
     // Adiciona-se 1 à posição referente ao caractere no vetor de Frequências:
@@ -37,7 +37,6 @@ void imprimeFrequencia(int vetorFrequencia[256]) {
             else
                 printf("\tASCII: %d, Caractere: %c, Frequencia: %d\n", i, i, vetorFrequencia[i]);
         }
-        
     }
 }
 
@@ -104,11 +103,19 @@ void imprimeArvore(NoHuffman* raiz, int profundidade) {
     imprimeArvore(raiz->dir, profundidade + 1);
 
     for (int i = 0; i < profundidade; i++) {
-        printf("    ");
+        printf("        ");
     }
 
     if (raiz->esq == NULL && raiz->dir == NULL) {
-        printf("[%c : %d]\n", raiz->chave, raiz->frequencia);
+        if (raiz->chave == '\n') {
+            printf("[\\n : %d]\n", raiz->chave, raiz->frequencia);
+        }
+        if (raiz->chave == '\t') {
+            printf("[\\t : %d]\n", raiz->chave, raiz->frequencia);
+        }
+        else {
+            printf("[%c : %d]\n", raiz->chave, raiz->frequencia);
+        }
     }
 
     else {
@@ -136,7 +143,7 @@ FILE* criaArquivoSaida(char* nomeArquivoSaida) {
     return arquivoSaida;
 }
 
-void comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]) {
+NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]) {
     formataNome(nomeArquivoLeitura);
     FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
     verificaArquivo(arquivoLeitura);
@@ -188,6 +195,7 @@ void comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetor
 
     fclose(arquivoLeitura);
     fclose(arquivoSaida);
+    return raiz;
 }
 
 void descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
@@ -239,7 +247,6 @@ void descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
 
     fclose(arquivoLeitura);
     fclose(arquivoSaida);
-
 }
 
 void liberaArvore(NoHuffman* raiz) {

@@ -9,7 +9,7 @@ bool ehMenorNo(void* a, void*b);
 
 void verificaArquivo(FILE* arquivo);
 
-void contaFrequencia(FILE* arquivo, int** vetorFrequencia);
+void contaFrequencia(FILE* arquivo, int* vetorFrequencia);
 
 void imprimeFrequencia(int vetorFrequencia[256]);
 
@@ -19,7 +19,7 @@ void imprimeArvore(NoHuffman* raiz, int profundidade);
 
 void formataNome(char* nomeArquivo);
 
-void comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]);
+NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]);
 
 void descomprimeArquivo(char* arquivoLeitura, char* arquivoSaida);
 
