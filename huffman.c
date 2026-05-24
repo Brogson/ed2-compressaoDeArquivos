@@ -20,7 +20,7 @@ void verificaArquivo(FILE* arquivo) {
     }
 }
 
-void contaFrequencia(FILE** arquivoLeitura, int** vetorFrequencia) {
+void contaFrequencia(FILE* arquivoLeitura, int** vetorFrequencia) {
     int caractere;
     
     // Adiciona-se 1 à posição referente ao caractere no vetor de Frequências:
@@ -74,7 +74,7 @@ NoHuffman* constroiArvore(int vetorFrequencia[256]) {
     return (NoHuffman*) h.dados[1];
 }
 
-void criaTabelaCodigos(NoHuffman* raiz, int profundidade, char* codigo, unsigned char* tabela[256][256]){
+void criaTabelaCodigos(NoHuffman* raiz, int profundidade, char* codigo, unsigned char tabela[256][256]){
     
     if (raiz == NULL) return;
 
@@ -140,7 +140,7 @@ void comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetor
     formataNome(nomeArquivoLeitura);
     FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
     verificaArquivo(arquivoLeitura);
-    contaFrequencia(arquivoLeitura, &vetorFrequencia);
+    contaFrequencia(arquivoLeitura, vetorFrequencia);
 
     NoHuffman* raiz = constroiArvore(vetorFrequencia);
     unsigned char tabelaCodigos[256][256];
@@ -188,7 +188,6 @@ void comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetor
 
     fclose(arquivoLeitura);
     fclose(arquivoSaida);
-    liberaArvore(raiz);
 }
 
 void descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
@@ -210,31 +209,36 @@ void descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
     int contadorBits;
     int caracteresEscritos = 0;
 
-    while((c = fgetc(arquivoLeitura)) != EOF && caracteresEscritos <= raiz->frequencia) {
-        contadorBits = 0;
+    while((c = fgetc(arquivoLeitura)) != EOF && caracteresEscritos < raiz->frequencia) {
         aux = 0;
+        contadorBits = 0;
 
-        if (raiz.esq = NULL && raiz->dir == NULL) {
-            
-        }
-        while (contadorBits < 8){
-            aux = (c >> (7 - contadorBits)) & 1;
-            contadorBits++;
-
-            if (aux == 0) atual = atual->esq;
-            else atual = atual->dir;
-            
-            if (atual->dir == NULL && atual->esq == NULL) {
+        while (contadorBits < 8 && caracteresEscritos < raiz->frequencia) {
+            //Caso a raiz seja folha, ou seja, apenas um caractere no txt original:
+            if (raiz->esq == NULL && raiz->dir == NULL) {
                 fputc(atual->chave, arquivoSaida);
-                atual = raiz;
                 caracteresEscritos++;
+                contadorBits++;
+            }
+
+            else {
+               aux = (c >> (7 - contadorBits)) & 1;
+                contadorBits++;
+
+                if (aux == 0) atual = atual->esq;
+                else atual = atual->dir;
+        
+                if (atual->dir == NULL && atual->esq == NULL) {
+                    fputc(atual->chave, arquivoSaida);
+                    atual = raiz;
+                    caracteresEscritos++;
+                } 
             }
         }
     }
 
     fclose(arquivoLeitura);
     fclose(arquivoSaida);
-    liberaArvore(raiz);
 }
 
 void liberaArvore(NoHuffman* raiz) {

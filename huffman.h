@@ -9,11 +9,11 @@ bool ehMenorNo(void* a, void*b);
 
 void verificaArquivo(FILE* arquivo);
 
-void contaFrequencia(FILE** arquivo, int** vetorFrequencia);
+void contaFrequencia(FILE* arquivo, int** vetorFrequencia);
 
 void imprimeFrequencia(int vetorFrequencia[256]);
 
-void criaTabelaCodigos(NoHuffman* raiz, int profundidade, char* codigo, unsigned char* tabela[256][256]);
+void criaTabelaCodigos(NoHuffman* raiz, int profundidade, char* codigo, unsigned char tabela[256][256]);
 
 void imprimeArvore(NoHuffman* raiz, int profundidade);
 

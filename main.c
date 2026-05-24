@@ -20,6 +20,7 @@ int main (void) {
         printf("Escolha uma opcao: ");
 
         scanf("%d", &opcao);
+        getchar();
 
         switch (opcao) {
 
@@ -32,16 +33,13 @@ int main (void) {
                 printf("Digite o nome do arquivo de saida: ");
                 fgets(nomeArquivoSaida, 100, stdin);
 
-                // Cria arquivo saida formatado
-                criaArquivoSaida(nomeArquivoSaida);
-
                 //Inicia a compressao do arquivo
                 comprimeArquivo(nomeArquivoEntrada, nomeArquivoSaida, vetorFrequencia);
 
                 printf("Compressao concluida!\n");
                 aux = 1;
                 break;
-
+            
             case 2:
                 if (!aux) {
                     printf("Erro! Voce ainda nao compactou um arquivo\n");
@@ -63,25 +61,28 @@ int main (void) {
                 // Caso ja tenha passado pela opcao 1, imprime a arvore na tela
                 imprimeArvore(raiz, 0);
                 break;
-            case 4:
+                
+            case 4: 
                 char nomeArquivoComprimido[100];
                 char nomeArquivoDescompactado[100];
                 
                 printf("Digite o nome do arquivo de entrada: ");
-                fgets(nomeArquivoEntrada, 100, stdin);
+                fgets(nomeArquivoComprimido, 100, stdin);
                 printf("Digite o nome do arquivo de saida: ");
-                fgets(nomeArquivoSaida, 100, stdin);
+                fgets(nomeArquivoDescompactado, 100, stdin);
 
                 // Retira o \n dos 2 nomes e chama a descompressao
                 formataNome(nomeArquivoComprimido);
                 formataNome(nomeArquivoDescompactado);
 
                 descomprimeArquivo(nomeArquivoComprimido, nomeArquivoDescompactado);
+                liberaArvore(raiz);
                 printf("Descompressao concluida!\n");
                 break;
 
             case 5:
                 printf("Encerrando o programa!\n");
+                liberaArvore(raiz);
                 exit(0);
             
             default:
@@ -89,4 +90,6 @@ int main (void) {
                 break;
         }
     } while (opcao != 5);
+
+    return 0;
 }
