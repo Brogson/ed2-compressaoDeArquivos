@@ -121,7 +121,7 @@ void imprimeArvore(NoHuffman* raiz, int profundidade) {
 void formataNome(char* nomeArquivo) {
     int i = 0;
     while (nomeArquivo[i] != '\n') {
-        continue;
+        i++;
     }
     nomeArquivo[i] = '\0';
 }
@@ -239,6 +239,7 @@ void descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
 
     fclose(arquivoLeitura);
     fclose(arquivoSaida);
+
 }
 
 void liberaArvore(NoHuffman* raiz) {
