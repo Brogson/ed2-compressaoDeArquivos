@@ -25,7 +25,7 @@ void contaFrequencia(FILE* arquivoLeitura, int* vetorFrequencia) {
     
     // Adiciona-se 1 à posição referente ao caractere no vetor de Frequências:
     while ((caractere = fgetc(arquivoLeitura)) != EOF) {
-        vetorFrequencia[caractere]++;
+        vetorFrequencia[(unsigned char)caractere]++;
     }
 }
 
@@ -79,11 +79,11 @@ void criaTabelaCodigos(NoHuffman* raiz, int profundidade, char* codigo, unsigned
 
     // Encontrou o no folha
     if (raiz->dir == NULL && raiz->esq == NULL) {
-
         // Preenche todo o vetor correspondente a posicao do caractere com seu devido codigo
         for (int i = 0; i <= profundidade; i++) {
             tabela[raiz->chave][i] = codigo[i];
         }
+        tabela[raiz->chave][profundidade] = '\0';
     }
 
     if (raiz->esq != NULL) {
