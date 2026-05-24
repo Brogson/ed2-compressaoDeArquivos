@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "heap.h"
 
+
 /* Fonte:  http://www.ime.usp.br/~pf/algoritmos/aulas/aloca.html */
 void *mallocSafe(size_t nbytes) {
     void *ptr = malloc(nbytes);
@@ -63,6 +64,7 @@ void insereHeap(Heap* h, void* dado, bool (*ehMenor)(void*, void*)) {
 
     h->dados[h->tamanho + 1] = dado;
     h->tamanho++;
+    
     if (h->tamanho > 1)
         heapifyUp(h, h->tamanho, ehMenor);
 }

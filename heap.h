@@ -12,9 +12,9 @@ void heapifyDown(Heap* h, int i, bool (*ehMenor)(void*, void*));
 
 void insereHeap(Heap* h, void* dado, bool (*ehMenor)(void*, void*));
 
-void* extraiMin(Heap* h, bool (*ehMenor)(void*, void*));
-
 void troca(void **x, void **y);
+
+void* extraiMin(Heap* h, bool (*ehMenor)(void*, void*));
 
 void* mallocSafe(size_t nbytes);
 

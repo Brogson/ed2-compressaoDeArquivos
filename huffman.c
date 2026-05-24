@@ -13,7 +13,14 @@ bool ehMenorNo(void* a, void* b) {
     return noA->frequencia < noB->frequencia;
 }
 
-void contaFrequencia(FILE** arquivoLeitura, int vetorFrequencia[256]) {
+void verificaArquivo(FILE* arquivo) {
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+}
+
+void contaFrequencia(FILE** arquivoLeitura, int** vetorFrequencia) {
     int caractere;
     
     // Adiciona-se 1 à posição referente ao caractere no vetor de Frequências:
@@ -67,7 +74,7 @@ NoHuffman* constroiArvore(int vetorFrequencia[256]) {
     return (NoHuffman*) h.dados[1];
 }
 
-void criaCodigoHuffman(NoHuffman* raiz, int profundidade, char* codigo, unsigned char* tabela[256][256]){
+void criaTabelaCodigos(NoHuffman* raiz, int profundidade, char* codigo, unsigned char* tabela[256][256]){
     
     if (raiz == NULL) return;
 
@@ -78,16 +85,16 @@ void criaCodigoHuffman(NoHuffman* raiz, int profundidade, char* codigo, unsigned
         for (int i = 0; i <= profundidade; i++) {
             tabela[raiz->chave][i] = codigo[i];
         }
-        tabela[raiz->chave][profundidade] = '\0';
     }
 
     if (raiz->esq != NULL) {
         codigo[profundidade] = '0';
-        criaCodigo(raiz->esq, profundidade + 1, codigo, tabela);
+        criaTabelaCodigos(raiz->esq, profundidade + 1, codigo, tabela);
     }
+
     if (raiz->dir!= NULL) {
         codigo[profundidade] = '1';
-        criaCodigo(raiz->dir, profundidade + 1, codigo, tabela);
+        criaTabelaCodigos(raiz->dir, profundidade + 1, codigo, tabela);
     }
 }
 
@@ -103,6 +110,7 @@ void imprimeArvore(NoHuffman* raiz, int profundidade) {
     if (raiz->esq == NULL && raiz->dir == NULL) {
         printf("[%c : %d]\n", raiz->chave, raiz->frequencia);
     }
+
     else {
         printf("[%d]\n", raiz->frequencia);
     }
@@ -120,32 +128,113 @@ void formataNome(char* nomeArquivo) {
 
 FILE* criaArquivoSaida(char* nomeArquivoSaida) {
     formataNome(nomeArquivoSaida);
-    nomeArquivoSaida = strcat(nomeArquivoSaida, ".bin");
+    nomeArquivoSaida = strcat(nomeArquivoSaida, ".jlv");
 
     // Cria o arquivo para escrita binaria e retorna aberto
-    FILE* arquivoSaida = fopen (nomeArquivoSaida, "wb");
+    FILE* arquivoSaida = fopen(nomeArquivoSaida, "wb");
+    verificaArquivo(arquivoSaida);
     return arquivoSaida;
 }
 
-void comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int* vetorFrequencia[256], NoHuffman* raiz) {
-    /* - Passo a Passo -
-        1 - Abre arquivo Leitura;
-        2 - Conta frequencia de cada caractere (cabecalho);
-        3 - Constroi Arvore de Huffman;
-        4 - Cria o codigo de cada caractere;
-        5 - Cria o arquivo Saida;
-        6 - ...
-    */
+void comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]) {
+    formataNome(nomeArquivoLeitura);
+    FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
+    verificaArquivo(arquivoLeitura);
+    contaFrequencia(arquivoLeitura, &vetorFrequencia);
 
-    FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "r");
-    contaFrequencia(&arquivoLeitura, &vetorFrequencia);
-    NoHuffman* raiz = constroiArvore(&vetorFrequencia);
-
-    unsigned char tabelaCodigos[256][256] = NULL;
+    NoHuffman* raiz = constroiArvore(vetorFrequencia);
+    unsigned char tabelaCodigos[256][256];
     char codigo[256];
 
-    criaCodigoHuffman(raiz, 0, &codigo, &tabelaCodigos);
+    memset(tabelaCodigos, 0, sizeof(tabelaCodigos));
+
+    criaTabelaCodigos(raiz, 0, codigo, tabelaCodigos);
     FILE* arquivoSaida = criaArquivoSaida(nomeArquivoSaida);
+
+    // Escreve cabecalho no arquivo de saida
+    fwrite(vetorFrequencia, sizeof(int), 256, arquivoSaida);
+
+    // Retorna o ponteiro para o inicio do arquivo
+    rewind(arquivoLeitura);
+
+    int c, contadorBits = 0;
+    unsigned char aux = 0;
+    while ((c = fgetc(arquivoLeitura)) != EOF) {
+        
+        // Representacao do caractere em bits
+        int tamanho = strlen((char*) tabelaCodigos[c]);
+        for (int i = 0; i < tamanho; i++) {
+
+            // Transforma o codigo do caractere em inteiro 0 e 1
+            int bit = tabelaCodigos[c][i] - '0';
+            
+            // Move o auxiliar para esquerda e adiciona o bit referente ao codigo do caractere 
+            aux = (aux << 1) | bit;
+            contadorBits++;
+            
+            if (contadorBits == 8) {
+                fputc(aux, arquivoSaida);
+                aux = 0;
+                contadorBits = 0;
+            }
+        }
+    }
+
+    // Caso tenha sobrado algum bit
+    if (contadorBits > 0) {
+        aux = aux << (8 - contadorBits);
+        fputc(aux, arquivoSaida);
+    }
+
+    fclose(arquivoLeitura);
+    fclose(arquivoSaida);
+    liberaArvore(raiz);
+}
+
+void descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
+    FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
+    verificaArquivo(arquivoLeitura);    
+    
+    int vetorFrequencia[256];
+    fread(vetorFrequencia, sizeof(int), 256, arquivoLeitura);
+
+    NoHuffman* raiz = constroiArvore(vetorFrequencia);
+    
+    FILE* arquivoSaida = fopen(nomeArquivoSaida, "w");
+    verificaArquivo(arquivoSaida);
+    
+    int c;
+    NoHuffman* atual = raiz;
+
+    unsigned char aux;
+    int contadorBits;
+    int caracteresEscritos = 0;
+
+    while((c = fgetc(arquivoLeitura)) != EOF && caracteresEscritos <= raiz->frequencia) {
+        contadorBits = 0;
+        aux = 0;
+
+        if (raiz.esq = NULL && raiz->dir == NULL) {
+            
+        }
+        while (contadorBits < 8){
+            aux = (c >> (7 - contadorBits)) & 1;
+            contadorBits++;
+
+            if (aux == 0) atual = atual->esq;
+            else atual = atual->dir;
+            
+            if (atual->dir == NULL && atual->esq == NULL) {
+                fputc(atual->chave, arquivoSaida);
+                atual = raiz;
+                caracteresEscritos++;
+            }
+        }
+    }
+
+    fclose(arquivoLeitura);
+    fclose(arquivoSaida);
+    liberaArvore(raiz);
 }
 
 void liberaArvore(NoHuffman* raiz) {
@@ -153,6 +242,5 @@ void liberaArvore(NoHuffman* raiz) {
     
     liberaArvore(raiz->esq);
     liberaArvore(raiz->dir);
-
     free(raiz);
 }
