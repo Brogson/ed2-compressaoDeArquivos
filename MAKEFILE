@@ -11,7 +11,7 @@ EXECUTAVEL=Compacta.exe # nome do executável final
 # 2️⃣ Alvo principal (primeiro alvo → padrão ao rodar "make")
 # ==========================================================
 
-$(EXECUTAVEL): main.o Ponto.o
+$(EXECUTAVEL): main.o heap.o huffman.o
 	@echo "🔧 Ligando objetos e gerando executável..."
 	gcc main.o heap.o huffman.o $(CLIBS) -o $(EXECUTAVEL)
 	@echo "✅ Compilação concluída."
