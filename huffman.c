@@ -108,10 +108,10 @@ void imprimeArvore(NoHuffman* raiz, int profundidade) {
 
     if (raiz->esq == NULL && raiz->dir == NULL) {
         if (raiz->chave == '\n') {
-            printf("[\\n : %d]\n", raiz->chave, raiz->frequencia);
+            printf("[\\n : %d]\n", raiz->frequencia);
         }
         if (raiz->chave == '\t') {
-            printf("[\\t : %d]\n", raiz->chave, raiz->frequencia);
+            printf("[\\t : %d]\n", raiz->frequencia);
         }
         else {
             printf("[%c : %d]\n", raiz->chave, raiz->frequencia);
