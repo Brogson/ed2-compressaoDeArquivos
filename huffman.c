@@ -32,8 +32,15 @@ void contaFrequencia(FILE* arquivoLeitura, int* vetorFrequencia) {
 void imprimeFrequencia(int vetorFrequencia[256]) {
     for (int i = 0; i < 256; i++) {
         if (vetorFrequencia[i] > 0) {
-            if (i == '\n')
+            if (i == '\n') {
                 printf("\tASCII: %d, Caractere: \\n, Frequencia: %d\n", i, vetorFrequencia[i]);
+            }
+            else if (i == '\t') {
+                printf("\tASCII: %d, Caractere: \\t, Frequencia: %d\n", i, vetorFrequencia[i]);
+            }
+            else if (i == '\r') {
+                printf("\tASCII: %d, Caractere: \\r, Frequencia: %d\n", i, vetorFrequencia[i]);
+            }
             else
                 printf("\tASCII: %d, Caractere: %c, Frequencia: %d\n", i, i, vetorFrequencia[i]);
         }
@@ -52,25 +59,28 @@ NoHuffman* criaNoHuffman(int chave, int frequencia) {
 }
 
 NoHuffman* constroiArvore(int vetorFrequencia[256]) {
-    Heap h;
-    criaHeap(&h, 256);
+    Heap* h = mallocSafe(sizeof(Heap));
+    criaHeap(h, 256);
 
     for (int i = 0; i < 256; i++) {
         if (vetorFrequencia[i] > 0) {
             NoHuffman* novoNo = criaNoHuffman(i, vetorFrequencia[i]);
-            insereHeap(&h, novoNo, ehMenorNo);
+            insereHeap(h, novoNo, ehMenorNo);
         }
     }
 
-    while (h.tamanho > 1) {
-        NoHuffman* menor1 = (NoHuffman*) extraiMin(&h, ehMenorNo);
-        NoHuffman* menor2 = (NoHuffman*) extraiMin(&h, ehMenorNo);
+    while (h->tamanho > 1) {
+        NoHuffman* menor1 = (NoHuffman*) extraiMin(h, ehMenorNo);
+        NoHuffman* menor2 = (NoHuffman*) extraiMin(h, ehMenorNo);
         NoHuffman* novoNo = criaNoHuffman('\0', menor1->frequencia + menor2->frequencia);
         novoNo->esq = menor1;
         novoNo->dir = menor2;
-        insereHeap(&h, novoNo, ehMenorNo);
+        insereHeap(h, novoNo, ehMenorNo);
     }
-    return (NoHuffman*) h.dados[1];
+
+    NoHuffman* raiz = (NoHuffman*) extraiMin(h, ehMenorNo);
+    liberaHeap(h);
+    return raiz;
 }
 
 void criaTabelaCodigos(NoHuffman* raiz, int profundidade, char* codigo, unsigned char tabela[256][256]){
@@ -110,8 +120,11 @@ void imprimeArvore(NoHuffman* raiz, int profundidade) {
         if (raiz->chave == '\n') {
             printf("[\\n : %d]\n", raiz->frequencia);
         }
-        if (raiz->chave == '\t') {
+        else if (raiz->chave == '\t') {
             printf("[\\t : %d]\n", raiz->frequencia);
+        }
+        else if (raiz->chave == '\r') {
+            printf("[\\r : %d]\n", raiz->frequencia);
         }
         else {
             printf("[%c : %d]\n", raiz->chave, raiz->frequencia);
@@ -198,9 +211,9 @@ NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int
     return raiz;
 }
 
-void descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
+NoHuffman* descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
     FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
-    verificaArquivo(arquivoLeitura);    
+    verificaArquivo(arquivoLeitura);
     
     int vetorFrequencia[256];
     fread(vetorFrequencia, sizeof(int), 256, arquivoLeitura);
@@ -247,6 +260,8 @@ void descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
 
     fclose(arquivoLeitura);
     fclose(arquivoSaida);
+
+    return raiz;
 }
 
 void liberaArvore(NoHuffman* raiz) {

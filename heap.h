@@ -14,9 +14,8 @@ void insereHeap(Heap* h, void* dado, bool (*ehMenor)(void*, void*));
 
 void troca(void **x, void **y);
 
+void liberaHeap(Heap* h);
+
 void* extraiMin(Heap* h, bool (*ehMenor)(void*, void*));
 
 void* mallocSafe(size_t nbytes);
-
-    
-

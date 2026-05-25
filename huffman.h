@@ -19,10 +19,6 @@ void imprimeArvore(NoHuffman* raiz, int profundidade);
 
 void formataNome(char* nomeArquivo);
 
-NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]);
-
-void descomprimeArquivo(char* arquivoLeitura, char* arquivoSaida);
-
 void liberaArvore(NoHuffman* raiz);
 
 FILE* criaArquivoSaida(char* nomeArquivoSaida);
@@ -30,3 +26,7 @@ FILE* criaArquivoSaida(char* nomeArquivoSaida);
 NoHuffman* criaNoHuffman(int posicao, int frequencia);
 
 NoHuffman* constroiArvore(int vetorFrequencia[256]);
+
+NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]);
+
+NoHuffman* descomprimeArquivo(char* arquivoLeitura, char* arquivoSaida);

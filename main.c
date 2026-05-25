@@ -44,7 +44,7 @@ int main (void) {
             
             case 2:
                 if (!aux) {
-                    printf("Erro! Voce ainda nao compactou um arquivo\n");
+                    printf("\nErro! Voce ainda nao compactou um arquivo\n");
                     break;
                 }
                 
@@ -78,7 +78,7 @@ int main (void) {
                 formataNome(nomeArquivoComprimido);
                 formataNome(nomeArquivoDescompactado);
 
-                descomprimeArquivo(nomeArquivoComprimido, nomeArquivoDescompactado);
+                raiz = descomprimeArquivo(nomeArquivoComprimido, nomeArquivoDescompactado);
                 printf("\nDescompressao concluida!\n");
                 break;
 
