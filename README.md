@@ -5,14 +5,6 @@
 
 ---
 
-# Grupo
-
-| Jonathan Alves Bispo da Paz |
-| Leandro Brognoli Grazziotin |
-| Victor da Rocha Toniato |
-
----
-
 # Descrição
 
 Implementação de um compactador e descompactador de arquivos de texto utilizando o **algoritmo de Huffman**, desenvolvido em linguagem C. O projeto inclui uma fila de prioridades genérica baseada em heap binário, utilizada como estrutura auxiliar na construção da árvore de Huffman.
