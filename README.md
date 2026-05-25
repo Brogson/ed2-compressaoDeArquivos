@@ -39,15 +39,12 @@ make clean
 Ao executar, o programa exibe o seguinte menu:
 
 ```
-========================================
-   Compactador de Arquivos - Huffman
-========================================
+=-=-= Menu de Opcoes =-=-=
 1. Comprimir arquivo
 2. Exibir contagem de caracteres
 3. Imprimir árvore de Huffman
 4. Descomprimir arquivo
 5. Sair
-========================================
 Escolha uma opcao:
 ```
 
