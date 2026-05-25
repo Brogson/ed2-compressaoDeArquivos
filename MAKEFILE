@@ -32,6 +32,7 @@ heap.o: heap.c
 
 huffman.o: huffman.c
 	@echo "🧩 Compilando huffman.c"
+	gcc -c $(CFLAGS) huffman.c
 # ==========================================================
 # 4️⃣ Alvos auxiliares (não geram arquivos → PHONY)
 # ==========================================================
