@@ -31,9 +31,9 @@ int main (void) {
                 
                 if (raiz != NULL) liberaArvore(raiz);
 
-                printf("Digite o nome do arquivo de entrada: ");
+                printf("Digite o nome do arquivo de entrada [defina a extensao Ex.: .txt]: ");
                 fgets(nomeArquivoEntrada, 100, stdin);
-                printf("Digite o nome do arquivo de saida: ");
+                printf("Digite o nome do arquivo de saida [sem extensao]: ");
                 fgets(nomeArquivoSaida, 100, stdin);
 
                 formataNome(nomeArquivoEntrada);
@@ -43,7 +43,7 @@ int main (void) {
 
                 // Compara se os nomes serão iguais, para evitar erro
                 while (strcmp(nomeArquivoEntrada, nomeArquivoSaida) == 0) {
-                    printf("O nome dos arquivos sao iguais, digite outro nome para o arquivo de saida: ");
+                    printf("O nome dos arquivos sao iguais, digite outro nome para o arquivo de saida [sem extensao]: ");
                     fgets(nomeArquivoSaida, 100, stdin);
                     formataNome(nomeArquivoSaida);
                     strcat(nomeArquivoSaida, ".jlv");
@@ -57,7 +57,7 @@ int main (void) {
                 break;
             
             case 2:
-                if (!aux) {
+                if (aux == 0) {
                     printf("\nErro! Voce ainda nao compactou um arquivo\n");
                     break;
                 }
@@ -68,7 +68,7 @@ int main (void) {
                 break;
             
             case 3:
-                if (!aux) {
+                if (aux == 0) {
                     printf("\nErro! Voce ainda nao compactou um arquivo\n");
                     break;
                 }
@@ -83,9 +83,9 @@ int main (void) {
                 char nomeArquivoComprimido[100];
                 char nomeArquivoDescompactado[100];
                 
-                printf("Digite o nome do arquivo de entrada (.jlv): ");
+                printf("Digite o nome do arquivo de entrada [.jlv]: ");
                 fgets(nomeArquivoComprimido, 100, stdin);
-                printf("Digite o nome do arquivo de saida (.txt): ");
+                printf("Digite o nome do arquivo de saida [defina a extensao Ex.: .txt]: ");
                 fgets(nomeArquivoDescompactado, 100, stdin);
 
                 // Retira o \n dos 2 nomes e chama a descompressao
