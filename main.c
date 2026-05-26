@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "huffman.h"
 #include "heap.h"
 
@@ -38,7 +39,17 @@ int main (void) {
                 formataNome(nomeArquivoEntrada);
                 formataNome(nomeArquivoSaida);
 
-                //Inicia a compressao do arquivo
+                strcat(nomeArquivoSaida, ".jlv");
+
+                // Compara se os nomes serão iguais, para evitar erro
+                while (strcmp(nomeArquivoEntrada, nomeArquivoSaida) == 0) {
+                    printf("O nome dos arquivos sao iguais, digite outro nome para o arquivo de saida: ");
+                    fgets(nomeArquivoSaida, 100, stdin);
+                    formataNome(nomeArquivoSaida);
+                    strcat(nomeArquivoSaida, ".jlv");
+                }
+
+                //Inicia a compressão do arquivo
                 raiz = comprimeArquivo(nomeArquivoEntrada, nomeArquivoSaida, vetorFrequencia);
 
                 printf("\nCompressao concluida!\n");

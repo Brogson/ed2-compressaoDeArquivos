@@ -147,7 +147,6 @@ void formataNome(char* nomeArquivo) {
 }
 
 FILE* criaArquivoSaida(char* nomeArquivoSaida) {
-    nomeArquivoSaida = strcat(nomeArquivoSaida, ".jlv");
 
     // Cria o arquivo para escrita binaria e retorna aberto
     FILE* arquivoSaida = fopen(nomeArquivoSaida, "wb");
@@ -156,7 +155,6 @@ FILE* criaArquivoSaida(char* nomeArquivoSaida) {
 }
 
 NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]) {
-
     FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
     verificaArquivo(arquivoLeitura);
     contaFrequencia(arquivoLeitura, vetorFrequencia);
