@@ -13,8 +13,8 @@ bool ehMenorNo(void* a, void* b) {
     return noA->frequencia < noB->frequencia;
 }
 
-void verificaArquivo(FILE* arquivo) {
-    if (arquivo == NULL) {
+void verificaArquivo(FILE* arquivoEntrada) {
+    if (arquivoEntrada == NULL) {
         printf("Erro ao abrir o arquivo!\n");
         exit(1);
     }
@@ -147,7 +147,6 @@ void formataNome(char* nomeArquivo) {
 }
 
 FILE* criaArquivoSaida(char* nomeArquivoSaida) {
-    formataNome(nomeArquivoSaida);
     nomeArquivoSaida = strcat(nomeArquivoSaida, ".jlv");
 
     // Cria o arquivo para escrita binaria e retorna aberto
@@ -157,7 +156,7 @@ FILE* criaArquivoSaida(char* nomeArquivoSaida) {
 }
 
 NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]) {
-    formataNome(nomeArquivoLeitura);
+
     FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
     verificaArquivo(arquivoLeitura);
     contaFrequencia(arquivoLeitura, vetorFrequencia);
@@ -169,6 +168,7 @@ NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int
     memset(tabelaCodigos, 0, sizeof(tabelaCodigos));
 
     criaTabelaCodigos(raiz, 0, codigo, tabelaCodigos);
+
     FILE* arquivoSaida = criaArquivoSaida(nomeArquivoSaida);
 
     // Escreve cabecalho no arquivo de saida
@@ -212,6 +212,7 @@ NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int
 }
 
 NoHuffman* descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
+
     FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
     verificaArquivo(arquivoLeitura);
     

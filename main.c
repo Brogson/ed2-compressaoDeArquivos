@@ -30,10 +30,13 @@ int main (void) {
                 
                 if (raiz != NULL) liberaArvore(raiz);
 
-                printf("Digite o nome do arquivo de entrada (.txt): ");
+                printf("Digite o nome do arquivo de entrada: ");
                 fgets(nomeArquivoEntrada, 100, stdin);
                 printf("Digite o nome do arquivo de saida: ");
                 fgets(nomeArquivoSaida, 100, stdin);
+
+                formataNome(nomeArquivoEntrada);
+                formataNome(nomeArquivoSaida);
 
                 //Inicia a compressao do arquivo
                 raiz = comprimeArquivo(nomeArquivoEntrada, nomeArquivoSaida, vetorFrequencia);
