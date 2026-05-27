@@ -86,40 +86,6 @@ Implementação completa do algoritmo. Principais funções:
 
 ---
 
-# Exemplo de Saída
-
-# Tabela de Frequências
-
-```
-Caractere | Frequência
-----------+-----------
-'a'       |     15
-'b'       |      7
-'e'       |     20
-' '       |     12
-```
-
-# Árvore de Huffman
-
-```
-        [54]
-       /    \
-    [23]    [31]
-    /  \    /  \
-  a:15 b:8 e:20 ' ':11
-```
-
-# Códigos Gerados
-
-```
-'e' -> 10
-'a' -> 00
-' ' -> 11
-'b' -> 01
-```
-
----
-
 # Observações
 
 - O arquivo comprimido armazena a tabela de frequências no cabeçalho, permitindo a descompactação sem arquivos auxiliares.
