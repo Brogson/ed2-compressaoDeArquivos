@@ -71,7 +71,7 @@ Implementação de um **heap binário mínimo** para tipos genéricos de dados u
 - `criaHeap` — inicializa a estrutura
 - `insereHeap` — insere um elemento e restaura a propriedade do heap
 - `extraiMin` — remove e retorna o elemento de menor prioridade
-- `destroiHeap` — libera a memória alocada
+- `liberaHeap` — libera a memória alocada
 
 ### `huffman.h` / `huffman.c` — Algoritmo de Huffman
 
