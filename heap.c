@@ -82,6 +82,6 @@ void* extraiMin(Heap* h, bool (*ehMenor)(void*, void*)) {
 
 void liberaHeap(Heap* h) {
     if (h->dados != NULL) free(h->dados);
-    free(h);
+    if (h != NULL) free(h);
 }
     

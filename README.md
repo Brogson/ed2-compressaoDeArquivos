@@ -130,6 +130,6 @@ Caractere | Frequência
 
 # Observações
 
-- O arquivo comprimido armazena a tabela de frequências no cabeçalho, permitindo a descompactação sem arquivos auxiliares.
+- O arquivo comprimido armazena o vetor de frequências no cabeçalho, permitindo a descompactação sem arquivos auxiliares.
 - A implementação trata todos os caracteres ASCII, incluindo acentuação, espaços, tabulações e quebras de linha.
 - Em caso de empate de frequência entre dois caracteres, a ordem de inserção é mantida.

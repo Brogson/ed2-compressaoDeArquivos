@@ -9,7 +9,10 @@
 int main (void) {
     int vetorFrequencia[256] = {0};
     int opcao, aux = 0;
-    NoHuffman* raiz = NULL;
+    
+    // criado para saber se alguma operacao ja criou uma arvore
+    // setado para NULL antes de toda compressão ou descompressão, e passado como referência
+    NoHuffman* raiz = NULL; 
 
     do {
         printf("\n =-=-= Menu de opcoes =-=-= \n");
@@ -21,7 +24,7 @@ int main (void) {
         printf("Escolha uma opcao: ");
 
         scanf("%d", &opcao);
-        getchar();
+        getchar(); // evita que Opcao receba \n 
 
         switch (opcao) {
 
