@@ -29,4 +29,4 @@ NoHuffman* constroiArvore(int vetorFrequencia[256]);
 
 NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]);
 
-NoHuffman* descomprimeArquivo(char* arquivoLeitura, char* arquivoSaida);
+NoHuffman* descomprimeArquivo(char* arquivoLeitura, char* arquivoSaida, int vetorFrequencia[256]);
