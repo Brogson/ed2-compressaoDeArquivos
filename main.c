@@ -105,7 +105,7 @@ int main (void) {
 
                 raiz = descomprimeArquivo(nomeArquivoComprimido, nomeArquivoDescompactado);
                 printf("\nDescompressao concluida!\n");
-                aux = 0;
+                aux = 1;
                 break;
 
             case 5:
