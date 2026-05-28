@@ -215,7 +215,7 @@ NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int
     return raiz;
 }
 
-NoHuffman* descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) {
+NoHuffman* descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]) {
 
     FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
     verificaArquivo(arquivoLeitura);
@@ -224,6 +224,13 @@ NoHuffman* descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida) 
     fread(vetorFrequencia, sizeof(int), 256, arquivoLeitura);
 
     NoHuffman* raiz = constroiArvore(vetorFrequencia);
+
+    unsigned char tabelaCodigos[256][256];
+    char codigo[256];
+
+    memset(tabelaCodigos, 0, sizeof(tabelaCodigos));
+
+    criaTabelaCodigos(raiz, 0, codigo, tabelaCodigos);
     
     FILE* arquivoSaida = fopen(nomeArquivoSaida, "w");
     verificaArquivo(arquivoSaida);
