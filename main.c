@@ -95,8 +95,17 @@ int main (void) {
                 formataNome(nomeArquivoComprimido);
                 formataNome(nomeArquivoDescompactado);
 
+                // Compara se os nomes serão iguais, para evitar erro
+                while (strcmp(nomeArquivoEntrada, nomeArquivoSaida) == 0) {
+                    printf("O nome dos arquivos sao iguais, digite outro nome para o arquivo de saida [sem extensao]: ");
+                    fgets(nomeArquivoSaida, 100, stdin);
+                    formataNome(nomeArquivoSaida);
+                    strcat(nomeArquivoSaida, ".jlv");
+                }
+
                 raiz = descomprimeArquivo(nomeArquivoComprimido, nomeArquivoDescompactado);
                 printf("\nDescompressao concluida!\n");
+                aux = 0;
                 break;
 
             case 5:

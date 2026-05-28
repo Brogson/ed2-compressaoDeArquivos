@@ -41,6 +41,9 @@ void imprimeFrequencia(int vetorFrequencia[256]) {
             else if (i == '\r') {
                 printf("\tASCII: %d, Caractere: \\r, Frequencia: %d\n", i, vetorFrequencia[i]);
             }
+            else if (i == ' ') {
+                printf("\tASCII: %d, Caractere: espaco, Frequencia: %d\n", i, vetorFrequencia[i]);
+            }
             else
                 printf("\tASCII: %d, Caractere: %c, Frequencia: %d\n", i, i, vetorFrequencia[i]);
         }
@@ -125,6 +128,9 @@ void imprimeArvore(NoHuffman* raiz, int profundidade) {
         }
         else if (raiz->chave == '\r') {
             printf("[\\r : %d]\n", raiz->frequencia);
+        }
+        else if (raiz->chave == ' ') {
+            printf("[espaco : %d]\n", raiz->frequencia);
         }
         else {
             printf("[%c : %d]\n", raiz->chave, raiz->frequencia);
