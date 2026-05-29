@@ -1,6 +1,7 @@
-# ==========================================================
+# ==========================================================================================
 # Makefile - Compressão de Arquivos
-# =========================================================
+# Grupo - Jonathan Alves Bispo da Paz, Leandro Brognoli Grazziotin e Victor da Rocha Toniato
+# ==========================================================================================
 
 # 1️⃣ Variáveis (para facilitar manutenção)
 CFLAGS=-O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow 

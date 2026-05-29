@@ -1,3 +1,5 @@
+//Grupo: Jonathan Alves Bispo da Paz, Leandro Brognoli Grazziotin e Victor da Rocha Toniato
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -33,19 +35,19 @@ void imprimeFrequencia(int vetorFrequencia[256]) {
     for (int i = 0; i < 256; i++) {
         if (vetorFrequencia[i] > 0) {
             if (i == '\n') {
-                printf("\tASCII: %d, Caractere: \\n, Frequencia: %d\n", i, vetorFrequencia[i]);
+                printf("ASCII: %d, Caractere: \\n, Frequencia: %d\n", i, vetorFrequencia[i]);
             }
             else if (i == '\t') {
-                printf("\tASCII: %d, Caractere: \\t, Frequencia: %d\n", i, vetorFrequencia[i]);
+                printf("ASCII: %d, Caractere: \\t, Frequencia: %d\n", i, vetorFrequencia[i]);
             }
             else if (i == '\r') {
-                printf("\tASCII: %d, Caractere: \\r, Frequencia: %d\n", i, vetorFrequencia[i]);
+                printf("ASCII: %d, Caractere: \\r, Frequencia: %d\n", i, vetorFrequencia[i]);
             }
             else if (i == ' ') {
-                printf("\tASCII: %d, Caractere: espaco, Frequencia: %d\n", i, vetorFrequencia[i]);
+                printf("ASCII: %d, Caractere: espaco, Frequencia: %d\n", i, vetorFrequencia[i]);
             }
             else
-                printf("\tASCII: %d, Caractere: %c, Frequencia: %d\n", i, i, vetorFrequencia[i]);
+                printf("ASCII: %d, Caractere: %c, Frequencia: %d\n", i, i, vetorFrequencia[i]);
         }
     }
 }
@@ -161,7 +163,7 @@ FILE* criaArquivoSaida(char* nomeArquivoSaida) {
 }
 
 NoHuffman* comprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, int vetorFrequencia[256]) {
-    FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
+    FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "r");
     verificaArquivo(arquivoLeitura);
     contaFrequencia(arquivoLeitura, vetorFrequencia);
 
@@ -220,16 +222,12 @@ NoHuffman* descomprimeArquivo(char* nomeArquivoLeitura, char* nomeArquivoSaida, 
     FILE* arquivoLeitura = fopen(nomeArquivoLeitura, "rb");
     verificaArquivo(arquivoLeitura);
     
-    int vetorFrequencia[256];
     fread(vetorFrequencia, sizeof(int), 256, arquivoLeitura);
-
     NoHuffman* raiz = constroiArvore(vetorFrequencia);
 
     unsigned char tabelaCodigos[256][256];
     char codigo[256];
-
     memset(tabelaCodigos, 0, sizeof(tabelaCodigos));
-
     criaTabelaCodigos(raiz, 0, codigo, tabelaCodigos);
     
     FILE* arquivoSaida = fopen(nomeArquivoSaida, "w");

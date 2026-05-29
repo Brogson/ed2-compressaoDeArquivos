@@ -1,3 +1,5 @@
+//Grupo: Jonathan Alves Bispo da Paz, Leandro Brognoli Grazziotin e Victor da Rocha Toniato
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

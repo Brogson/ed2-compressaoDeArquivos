@@ -1,3 +1,5 @@
+//Grupo: Jonathan Alves Bispo da Paz, Leandro Brognoli Grazziotin e Victor da Rocha Toniato
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -33,6 +35,7 @@ int main (void) {
                 char nomeArquivoSaida[100];
                 
                 if (raiz != NULL) liberaArvore(raiz);
+                memset(vetorFrequencia, 0, sizeof(vetorFrequencia));
 
                 printf("Digite o nome do arquivo de entrada [defina a extensao Ex.: .txt]: ");
                 fgets(nomeArquivoEntrada, 100, stdin);
@@ -66,7 +69,7 @@ int main (void) {
                 }
                 
                 // Caso ja tenha passado pela opcao 1, imprime as frequencias de cada caracter na tela
-                printf("\n =-= Imprimindo Frequencias =-= \n");
+                printf("\n =-= Imprimindo Frequencias =-= \n\n");
                 imprimeFrequencia(vetorFrequencia);
                 break;
             
@@ -82,7 +85,9 @@ int main (void) {
                 break;
                 
             case 4:
-                if (raiz != NULL) liberaArvore(raiz); 
+                if (raiz != NULL) liberaArvore(raiz);
+                memset(vetorFrequencia, 0, sizeof(vetorFrequencia));
+
                 char nomeArquivoComprimido[100];
                 char nomeArquivoDescompactado[100];
                 
@@ -96,14 +101,14 @@ int main (void) {
                 formataNome(nomeArquivoDescompactado);
 
                 // Compara se os nomes serão iguais, para evitar erro
-                while (strcmp(nomeArquivoEntrada, nomeArquivoSaida) == 0) {
+                while (strcmp(nomeArquivoComprimido, nomeArquivoDescompactado) == 0) {
                     printf("O nome dos arquivos sao iguais, digite outro nome para o arquivo de saida [sem extensao]: ");
                     fgets(nomeArquivoSaida, 100, stdin);
                     formataNome(nomeArquivoSaida);
                     strcat(nomeArquivoSaida, ".jlv");
                 }
 
-                raiz = descomprimeArquivo(nomeArquivoComprimido, nomeArquivoDescompactado);
+                raiz = descomprimeArquivo(nomeArquivoComprimido, nomeArquivoDescompactado, vetorFrequencia);
                 printf("\nDescompressao concluida!\n");
                 aux = 1;
                 break;

@@ -1,3 +1,5 @@
+//Grupo: Jonathan Alves Bispo da Paz, Leandro Brognoli Grazziotin e Victor da Rocha Toniato
+
 typedef struct no {
     unsigned char chave;
     int frequencia;
